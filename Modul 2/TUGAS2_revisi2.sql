@@ -94,3 +94,55 @@ INSERT INTO Transaksi (id_buku, id_pelanggan, tanggal_transaksi, jumlah_beli, to
 (1, 1, '2024-04-29', 2, 20000),
 (2, 2, '2024-04-30', 1, 15000);
 
+-- 1. Mengambil semua informasi dari tabel Penerbit
+SELECT * FROM Penerbit;
+
+-- 2. Mengambil nama penerbit dan alamat dari tabel Penerbit
+SELECT nama_penerbit, alamat FROM Penerbit;
+
+-- 3. Mengambil semua informasi dari tabel Buku, dan menampilkan id_buku sebagai 'ID Buku'
+SELECT *, id_buku AS 'ID Buku' FROM Buku;
+
+-- 4. Mengambil judul buku dan tahun terbit dari tabel Buku, diurutkan berdasarkan tahun terbit secara descending
+SELECT judul_buku, tahun_terbit FROM Buku ORDER BY tahun_terbit DESC;
+
+-- 5. Mengambil 5 buku pertama dari tabel Buku
+SELECT * FROM Buku LIMIT 5;
+
+
+-- 6. Menampilkan jumlah buku yang tersedia di setiap kategori
+SELECT k.nama_kategori, SUM(b.jumlah_buku) AS total_buku
+FROM Kategori k
+JOIN Buku b ON k.id_kategori = b.id_kategori
+GROUP BY k.nama_kategori;
+
+
+-- 7. Menampilkan nama penulis dan judul buku yang ditulisnya
+SELECT p.nama_penulis, b.judul_buku
+FROM Penulis p
+JOIN Buku b ON p.id_penulis = b.id_penulis;
+
+-- 8. Menampilkan nama pelanggan dan detail transaksi yang dilakukannya
+SELECT p.nama AS nama_pelanggan, t.tanggal_transaksi, t.jumlah_beli, t.total_harga
+FROM Pelanggan p
+JOIN Transaksi t ON p.id_pelanggan = t.id_pelanggan;
+
+
+-- 9. Menampilkan judul buku, nama penulis, dan nama kategori
+SELECT b.judul_buku, p.nama_penulis, k.nama_kategori
+FROM Buku b
+JOIN Penulis p ON b.id_penulis = p.id_penulis
+JOIN Kategori k ON b.id_kategori = k.id_kategori;
+
+
+-- 10. Menampilkan buku-buku yang diterbitkan oleh 'Gramedia Pustaka Utama'
+SELECT b.judul_buku
+FROM Buku b
+JOIN Penerbit p ON b.id_penerbit = p.id_penerbit
+WHERE p.nama_penerbit = 'Gramedia Pustaka Utama';
+
+-- 11. Menampilkan jumlah total transaksi yang dilakukan
+SELECT COUNT(*) AS total_transaksi FROM Transaksi;
+
+-- 12. Menampilkan rata-rata harga buku dari semua buku
+SELECT AVG(jumlah_buku) AS rata_rata_buku FROM Buku;
